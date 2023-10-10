@@ -1,6 +1,5 @@
 import chex
 import jax
-import jax.experimental.checkify as checkify
 
 import dejax.circular_buffer as circular_buffer
 from dejax.base import ReplayBuffer, Item, ItemBatch, IntScalar, ItemUpdateFn, make_default_add_batch_fn
@@ -14,7 +13,7 @@ class UniformReplayBufferState:
 def uniform_sample(
         buffer: circular_buffer.CircularBuffer, rng: chex.PRNGKey, batch_size: int
 ) -> circular_buffer.ItemBatch:
-    checkify.check(circular_buffer.size(buffer) > 0, 'Cannot sample from an empty buffer')
+
 
     sample_pos = jax.random.randint(rng, minval=0, maxval=circular_buffer.size(buffer), shape=(batch_size,))
     get_at_index_batch = jax.vmap(circular_buffer.get_at_index, in_axes=(None, 0))
